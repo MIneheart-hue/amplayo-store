@@ -153,3 +153,4 @@ $("#checkoutBtn").addEventListener("click", checkout);
 
 renderMenu();
 renderCart();
+
