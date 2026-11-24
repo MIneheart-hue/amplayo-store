@@ -1,0 +1,73 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Amplayo Store</title>
+  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">
+      <img src="logo.png" alt="Amplayo Store Logo" class="logo" />
+    </div>
+    <nav>
+      <a href="#menu">MENU</a>
+      <a href="#about">ABOUT</a>
+      <button id="cartBtn" class="cart-btn">CART (<span id="cartCount">0</span>)</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero-wrapper">
+      <div class="hero-card">
+        <div class="hero-content">
+          <div class="tag">AMPLAYO SPECIALS</div>
+          <h1>SMOKED BRISKET<br>PLATE</h1>
+          <p>Creators of the best local comfort food. We have an array of delicious, quick, and easy meals with something for every taste.</p>
+          <div class="badges">
+            <div class="badge">
+              <span class="icon">⏱</span>
+              <div><strong>20 MIN</strong><br>PREP TIME</div>
+            </div>
+            <div class="badge">
+              <span class="icon">🍽</span>
+              <div><strong>2</strong><br>SERVING</div>
+            </div>
+          </div>
+          <a href="#menu" class="cta">ORDER NOW</a>
+        </div>
+        <div class="hero-image">
+          <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1000&auto=format&fit=crop" alt="Brisket Plate" />
+        </div>
+      </div>
+    </section>
+
+    <section id="menu" class="menu">
+      <h2>OUR MENU</h2>
+      <div id="grid" class="grid"></div>
+    </section>
+
+    <section id="about" class="about">
+      <h2>ABOUT AMPLAYO</h2>
+      <p>We cook in small batches. Everything is made the day you order it. Good food, great mood.</p>
+    </section>
+  </main>
+
+  <aside id="cartPanel" class="cart-panel hidden">
+    <header>
+      <h3>YOUR CART</h3>
+      <button id="closeCart" aria-label="close">&times;</button>
+    </header>
+    <div id="cartItems"></div>
+    <footer>
+      <div class="total">Total: <span>₱<span id="cartTotal">0.00</span></span></div>
+      <button id="checkoutBtn" class="cta full">CHECKOUT</button>
+    </footer>
+  </aside>
+
+  <div id="toast" class="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
