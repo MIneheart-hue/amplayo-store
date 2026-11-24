@@ -125,11 +125,13 @@ $("#submitOrderBtn").addEventListener("click", async () => {
       method: "POST",
       headers: { "Accept": "application/json", "Content-Type": "application/json" },
       body: JSON.stringify({
-        name: name,
-        phone: phone,
-        address: address,
-        order: orderDetails,
-        total: `₱${money(total)}`
+        _subject: `🍔 New Order from ${name}!`,
+        _replyto: phone.includes("@") ? phone : undefined,
+        "Customer Name": name,
+        "Contact Number": phone,
+        "Delivery Address": address,
+        "Order Details": orderDetails,
+        "Total Amount": `₱${money(total)}`
       })
     });
 
@@ -168,3 +170,4 @@ $("#closeCart").addEventListener("click", () => openCart(false));
 
 renderMenu();
 renderCart();
+
