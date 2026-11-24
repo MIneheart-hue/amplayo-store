@@ -11,8 +11,8 @@ function renderMenu() {
   if (PRODUCTS.length === 0) {
     grid.innerHTML = `
       <div class="empty-state">
-        <h3>COOKING SOMETHING UP...</h3>
-        <p>We are currently updating our menu. Please check back soon for delicious meals!</p>
+        <h3>JUST COMING SOON</h3>
+        <p>We are currently preparing our delicious meals. Please check back later!</p>
       </div>
     `;
     return;
@@ -62,3 +62,4 @@ $("#closeCart").addEventListener("click", () => openCart(false));
 
 renderMenu();
 renderCart();
+
