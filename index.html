@@ -20,8 +20,6 @@
   </header>
 
   <main>
-    <!-- Hero section removed, jumping straight to menu -->
-    
     <section id="menu" class="menu">
       <h2>OUR MENU</h2>
       <div id="grid" class="grid"></div>
@@ -33,13 +31,26 @@
     </section>
   </main>
 
+  <!-- Cart Panel with integrated Checkout Form -->
   <aside id="cartPanel" class="cart-panel hidden">
     <header>
       <h3>YOUR CART</h3>
       <button id="closeCart" aria-label="close">&times;</button>
     </header>
+    
+    <!-- Cart Items -->
     <div id="cartItems"></div>
-    <footer>
+    
+    <!-- Checkout Form -->
+    <div id="checkoutForm" style="display: none; padding: 1.5rem; border-top: 2px solid var(--bg);">
+      <h4 style="margin: 0 0 1rem; font-size: 1.2rem;">DELIVERY DETAILS</h4>
+      <input type="text" id="custName" placeholder="Full Name" style="width: 100%; padding: 0.8rem; margin-bottom: 0.8rem; border: 1px solid #ccc; border-radius: 8px; font-family: inherit;" required />
+      <input type="tel" id="custPhone" placeholder="Phone Number" style="width: 100%; padding: 0.8rem; margin-bottom: 0.8rem; border: 1px solid #ccc; border-radius: 8px; font-family: inherit;" required />
+      <textarea id="custAddress" placeholder="Delivery Address" rows="3" style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid #ccc; border-radius: 8px; font-family: inherit; resize: none;" required></textarea>
+      <button id="submitOrderBtn" class="cta full" style="background: var(--red); color: #fff;">PLACE ORDER</button>
+    </div>
+
+    <footer id="cartFooter">
       <div class="total">Total: <span>₱<span id="cartTotal">0.00</span></span></div>
       <button id="checkoutBtn" class="cta full">CHECKOUT</button>
     </footer>

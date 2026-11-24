@@ -1,10 +1,5 @@
 ﻿const PRODUCTS = [
-  { id: "p1", name: "Smoked Brisket Plate", desc: "12-hour brisket, slaw, pickles, cornbread.", price: 850.00, image: "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=600&auto=format&fit=crop" },
-  { id: "p2", name: "Green Chile Burger",   desc: "Half-pound patty, roasted chile, cheddar, brioche.", price: 450.00, image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=600&auto=format&fit=crop" },
-  { id: "p3", name: "Miso Mushroom Ramen",  desc: "Rich broth, fresh noodles, soft egg.", price: 550.00, image: "https://images.unsplash.com/photo-1557872943-16a5ac26437e?q=80&w=600&auto=format&fit=crop" },
-  { id: "p4", name: "Charred Corn Salad",   desc: "Corn, cotija, lime, chile, herbs.", price: 320.00, image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=600&auto=format&fit=crop" },
-  { id: "p5", name: "Buttermilk Chicken",   desc: "Crispy thighs, hot honey, pickles.", price: 480.00, image: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=600&auto=format&fit=crop" },
-  { id: "p6", name: "Olive Oil Citrus Cake", desc: "Tender cake, orange glaze, sea salt.", price: 250.00, image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=600&auto=format&fit=crop" }
+  { id: "p1", name: "Classic Burger", desc: "Beef patty, cheddar, lettuce, tomato, house sauce.", price: 150.00, image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=600&auto=format&fit=crop" }
 ];
 
 const FORMSPREE_URL = "https://formspree.io/f/mgakpqar";
@@ -91,20 +86,37 @@ function toast(msg) {
 
 function openCart(open) {
   $("#cartPanel").classList.toggle("hidden", !open);
+  if (!open) {
+    // Reset back to cart view when closing
+    $("#cartItems").style.display = "block";
+    $("#checkoutForm").style.display = "none";
+    $("#cartFooter").style.display = "block";
+  }
 }
 
-async function checkout() {
+// Show the form
+$("#checkoutBtn").addEventListener("click", () => {
+  if (cart.size === 0) { toast("Cart is empty."); return; }
+  $("#cartItems").style.display = "none";
+  $("#cartFooter").style.display = "none";
+  $("#checkoutForm").style.display = "block";
+});
+
+// Submit Order
+$("#submitOrderBtn").addEventListener("click", async () => {
+  const name = $("#custName").value.trim();
+  const phone = $("#custPhone").value.trim();
+  const address = $("#custAddress").value.trim();
+
+  if (!name || !phone || !address) {
+    toast("Please fill in all fields.");
+    return;
+  }
+
   const { count, total, items } = cartSnapshot();
-  if (count === 0) { toast("Cart is empty."); return; }
-
-  const name = prompt("Enter your name:");
-  if (!name) return;
-  const phone = prompt("Enter your phone number or email:");
-  if (!phone) return;
-
   const orderDetails = items.map(i => `${i.qty}x ${i.product.name}`).join("\n");
   
-  const btn = $("#checkoutBtn");
+  const btn = $("#submitOrderBtn");
   btn.textContent = "SENDING...";
   btn.disabled = true;
 
@@ -114,7 +126,8 @@ async function checkout() {
       headers: { "Accept": "application/json", "Content-Type": "application/json" },
       body: JSON.stringify({
         name: name,
-        contact: phone,
+        phone: phone,
+        address: address,
         order: orderDetails,
         total: `₱${money(total)}`
       })
@@ -125,16 +138,19 @@ async function checkout() {
       cart.clear();
       renderCart();
       openCart(false);
+      $("#custName").value = "";
+      $("#custPhone").value = "";
+      $("#custAddress").value = "";
     } else {
       toast("Error sending order. Please try again.");
     }
   } catch (err) {
     toast("Network error. Please try again.");
   } finally {
-    btn.textContent = "CHECKOUT";
+    btn.textContent = "PLACE ORDER";
     btn.disabled = false;
   }
-}
+});
 
 document.addEventListener("click", (e) => {
   const add = e.target.closest("[data-add]");
@@ -149,8 +165,6 @@ document.addEventListener("click", (e) => {
 
 $("#cartBtn").addEventListener("click", () => openCart(true));
 $("#closeCart").addEventListener("click", () => openCart(false));
-$("#checkoutBtn").addEventListener("click", checkout);
 
 renderMenu();
 renderCart();
-
