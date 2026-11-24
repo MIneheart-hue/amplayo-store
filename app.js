@@ -2,8 +2,6 @@
   { id: "p1", name: "Classic Burger", desc: "Beef patty, cheddar, lettuce, tomato, house sauce.", price: 150.00, image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=600&auto=format&fit=crop" }
 ];
 
-const FORMSPREE_URL = "https://formspree.io/f/mgakpqar";
-
 const cart = new Map();
 const $ = (s) => document.querySelector(s);
 const money = (n) => n.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -87,14 +85,12 @@ function toast(msg) {
 function openCart(open) {
   $("#cartPanel").classList.toggle("hidden", !open);
   if (!open) {
-    // Reset back to cart view when closing
     $("#cartItems").style.display = "block";
     $("#checkoutForm").style.display = "none";
     $("#cartFooter").style.display = "block";
   }
 }
 
-// Show the form
 $("#checkoutBtn").addEventListener("click", () => {
   if (cart.size === 0) { toast("Cart is empty."); return; }
   $("#cartItems").style.display = "none";
@@ -102,7 +98,6 @@ $("#checkoutBtn").addEventListener("click", () => {
   $("#checkoutForm").style.display = "block";
 });
 
-// Submit Order
 $("#submitOrderBtn").addEventListener("click", async () => {
   const name = $("#custName").value.trim();
   const phone = $("#custPhone").value.trim();
@@ -121,17 +116,18 @@ $("#submitOrderBtn").addEventListener("click", async () => {
   btn.disabled = true;
 
   try {
-    const response = await fetch(FORMSPREE_URL, {
+    const response = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
       headers: { "Accept": "application/json", "Content-Type": "application/json" },
       body: JSON.stringify({
-        _subject: `🍔 New Order from ${name}!`,
-        _replyto: phone.includes("@") ? phone : undefined,
-        "Customer Name": name,
-        "Contact Number": phone,
-        "Delivery Address": address,
-        "Order Details": orderDetails,
-        "Total Amount": `₱${money(total)}`
+        access_key: "1f390ef6-f3bb-4c6b-9302-cf0858aacad1",
+        subject: `🍔 New Order: ${name} - ₱${money(total)}`,
+        from_name: "Amplayo Store",
+        "👤 CUSTOMER": name,
+        "📞 CONTACT": phone,
+        "📍 DELIVER TO": address,
+        "🛒 ORDER SUMMARY": `\n${orderDetails}`,
+        "💰 TOTAL TO COLLECT": `₱${money(total)}`
       })
     });
 
@@ -170,6 +166,3 @@ $("#closeCart").addEventListener("click", () => openCart(false));
 
 renderMenu();
 renderCart();
-
-
-
