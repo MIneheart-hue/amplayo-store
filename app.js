@@ -171,3 +171,4 @@ $("#closeCart").addEventListener("click", () => openCart(false));
 renderMenu();
 renderCart();
 
+
